@@ -37,7 +37,7 @@ export const UploadSection: React.FC = () => {
 
   return (
     <div
-      className="group flex flex-col items-center justify-center w-[630px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden hover:bg-[#5D0C0E] transition-colors"
+      className="flex flex-col items-center justify-center w-[630px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
