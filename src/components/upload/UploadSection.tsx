@@ -43,22 +43,43 @@ export const UploadSection: React.FC = () => {
 
   if (uploadedImage) {
     return (
-      <div className="flex flex-col items-center w-[630px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden">
-        <div className="relative w-full">
-          <img 
-            src={uploadedImage} 
-            alt="Uploaded screenshot" 
-            className="w-full h-auto"
-          />
-          <button
-            onClick={handleClose}
-            className="absolute top-4 right-4 w-8 h-8 bg-black rounded-full flex items-center justify-center hover:bg-opacity-80 transition-colors"
-            aria-label="Close preview"
-          >
-            <X size={20} className="text-white" />
-          </button>
+      <div className="flex flex-col items-center w-[630px] relative max-md:w-4/5 max-sm:w-[90%]">
+        <div className="relative w-full bg-white p-4 rounded-[20px] rotate-[3.3deg] shadow-2xl">
+          <div className="relative w-full">
+            <img 
+              src={uploadedImage} 
+              alt="Uploaded screenshot" 
+              className="w-full h-auto rounded-lg"
+            />
+            <button
+              onClick={handleClose}
+              className="absolute top-4 right-4 w-8 h-8 bg-black/90 rounded-full flex items-center justify-center hover:bg-black transition-colors"
+              aria-label="Close preview"
+            >
+              <X size={20} className="text-white" />
+            </button>
+          </div>
         </div>
-        <SettingsPanel />
+        <div 
+          className="relative w-full -mt-4"
+          onMouseEnter={() => setShowSettings(true)}
+          onMouseLeave={() => setShowSettings(false)}
+        >
+          <div 
+            className={`transform transition-all duration-300 ease-in-out ${
+              showSettings 
+                ? "translate-y-0 opacity-100" 
+                : "translate-y-full opacity-0"
+            }`}
+          >
+            <div className="w-10 h-1.5 mx-auto bg-black rounded-[20px] hover:bg-opacity-80 transition-all duration-300 cursor-pointer max-md:w-[30px] max-md:h-[5px] max-sm:w-5 max-sm:h-1 mb-2" />
+            <SettingsPanel />
+          </div>
+
+          {!showSettings && (
+            <div className="w-10 h-1.5 mx-auto bg-black rounded-[20px] hover:bg-opacity-80 transition-all duration-300 cursor-pointer max-md:w-[30px] max-md:h-[5px] max-sm:w-5 max-sm:h-1 mb-2" />
+          )}
+        </div>
       </div>
     );
   }
