@@ -48,7 +48,7 @@ export const UploadSection: React.FC = () => {
             <img 
               src={uploadedImage} 
               alt="Uploaded screenshot" 
-              className="w-full h-auto rounded-lg"
+              className="w-full h-[400px] object-cover rounded-lg"
             />
             <button
               onClick={handleClose}
