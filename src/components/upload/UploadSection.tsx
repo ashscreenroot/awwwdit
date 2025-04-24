@@ -1,4 +1,3 @@
-
 import React, { useCallback, useState } from "react";
 import { UploadIcon } from "./UploadIcon";
 import { SettingsPanel } from "./SettingsPanel";
@@ -43,24 +42,22 @@ export const UploadSection: React.FC = () => {
 
   if (uploadedImage) {
     return (
-      <div className="flex flex-col items-center w-[630px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden">
-        <div className="relative w-full px-4 py-4">
-          <div className="relative w-[280px] mx-auto bg-white p-4 rounded-[20px] rotate-[-3.3deg] shadow-2xl">
-            <div className="aspect-[3/4] w-full overflow-hidden rounded-lg">
-              <img 
-                src={uploadedImage} 
-                alt="Uploaded screenshot" 
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <button
-              onClick={handleClose}
-              className="absolute top-4 right-4 w-8 h-8 bg-black/90 rounded-full flex items-center justify-center hover:bg-black transition-colors"
-              aria-label="Close preview"
-            >
-              <X size={20} className="text-white" />
-            </button>
+      <div className="flex flex-col items-center w-[630px] h-[370px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[280px] bg-white p-4 rounded-[20px] rotate-[-3.3deg] shadow-2xl translate-y-[40%]">
+          <div className="aspect-[3/4] w-full overflow-hidden rounded-lg">
+            <img 
+              src={uploadedImage} 
+              alt="Uploaded screenshot" 
+              className="w-full h-full object-cover"
+            />
           </div>
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-4 w-8 h-8 bg-black/90 rounded-full flex items-center justify-center hover:bg-black transition-colors"
+            aria-label="Close preview"
+          >
+            <X size={20} className="text-white" />
+          </button>
         </div>
         <SettingsPanel />
       </div>
