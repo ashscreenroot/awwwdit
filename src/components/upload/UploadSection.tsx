@@ -1,3 +1,4 @@
+
 import React, { useCallback, useState } from "react";
 import { UploadIcon } from "./UploadIcon";
 import { SettingsPanel } from "./SettingsPanel";
@@ -5,6 +6,7 @@ import { X } from "lucide-react";
 
 export const UploadSection: React.FC = () => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [showSettings, setShowSettings] = useState<boolean>(false);
 
   const handleImageUpload = (files: File[]) => {
     if (files.length > 0) {
