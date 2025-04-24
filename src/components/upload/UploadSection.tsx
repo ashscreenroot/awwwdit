@@ -1,3 +1,4 @@
+
 import React, { useCallback, useState } from "react";
 import { UploadIcon } from "./UploadIcon";
 import { SettingsPanel } from "./SettingsPanel";
@@ -66,7 +67,7 @@ export const UploadSection: React.FC = () => {
           </div>
         </div>
         <Button 
-          className="mt-6 bg-[#1A1F2C] hover:bg-[#0FA0CE] text-white font-medium px-8 py-2 rounded-full transition-colors"
+          className="mt-6 bg-[#0C0B0A] text-white font-medium px-[32px] py-[17px] rounded-[32px] absolute left-1/2 transform -translate-x-1/2 top-[509.74px]"
         >
           Awwwdit now
         </Button>
