@@ -1,18 +1,16 @@
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { UploadIcon } from "./UploadIcon";
-import { SettingsPanel } from "./SettingsPanel";
-import { X } from "lucide-react";
 
 export const UploadSection: React.FC = () => {
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
-  const [showSettings, setShowSettings] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleImageUpload = (files: File[]) => {
     if (files.length > 0) {
       const file = files[0];
       const imageUrl = URL.createObjectURL(file);
-      setUploadedImage(imageUrl);
+      navigate('/preview', { state: { imageUrl } });
     }
   };
 
@@ -37,32 +35,6 @@ export const UploadSection: React.FC = () => {
     input.click();
   }, []);
 
-  const handleClose = () => {
-    setUploadedImage(null);
-  };
-
-  if (uploadedImage) {
-    return (
-      <div className="flex flex-col items-center w-[630px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden">
-        <div className="relative w-full">
-          <img 
-            src={uploadedImage} 
-            alt="Uploaded screenshot" 
-            className="w-full h-auto"
-          />
-          <button
-            onClick={handleClose}
-            className="absolute top-4 right-4 w-8 h-8 bg-black rounded-full flex items-center justify-center hover:bg-opacity-80 transition-colors"
-            aria-label="Close preview"
-          >
-            <X size={20} className="text-white" />
-          </button>
-        </div>
-        <SettingsPanel />
-      </div>
-    );
-  }
-
   return (
     <div
       className="flex flex-col items-center justify-center w-[630px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden"
@@ -85,27 +57,6 @@ export const UploadSection: React.FC = () => {
             Web or mobile, any screen you've got
           </span>
         </div>
-      </div>
-      
-      <div 
-        className="absolute bottom-0 w-full"
-        onMouseEnter={() => setShowSettings(true)}
-        onMouseLeave={() => setShowSettings(false)}
-      >
-        <div 
-          className={`transform transition-all duration-300 ease-in-out ${
-            showSettings 
-              ? "translate-y-0 opacity-100" 
-              : "translate-y-full opacity-0"
-          }`}
-        >
-          <div className="w-10 h-1.5 mx-auto bg-black rounded-[20px] hover:bg-opacity-80 transition-all duration-300 cursor-pointer max-md:w-[30px] max-md:h-[5px] max-sm:w-5 max-sm:h-1 mb-2" />
-          <SettingsPanel />
-        </div>
-
-        {!showSettings && (
-          <div className="w-10 h-1.5 mx-auto bg-black rounded-[20px] hover:bg-opacity-80 transition-all duration-300 cursor-pointer max-md:w-[30px] max-md:h-[5px] max-sm:w-5 max-sm:h-1 mb-2" />
-        )}
       </div>
     </div>
   );
