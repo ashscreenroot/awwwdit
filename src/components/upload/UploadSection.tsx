@@ -1,16 +1,23 @@
-
 import React, { useCallback, useState } from "react";
 import { UploadIcon } from "./UploadIcon";
 import { SettingsPanel } from "./SettingsPanel";
+import { X } from "lucide-react";
 
 export const UploadSection: React.FC = () => {
-  const [showSettings, setShowSettings] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+
+  const handleImageUpload = (files: File[]) => {
+    if (files.length > 0) {
+      const file = files[0];
+      const imageUrl = URL.createObjectURL(file);
+      setUploadedImage(imageUrl);
+    }
+  };
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     const files = Array.from(e.dataTransfer.files);
-    // Handle file upload logic here
-    console.log("Files dropped:", files);
+    handleImageUpload(files);
   }, []);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -23,11 +30,36 @@ export const UploadSection: React.FC = () => {
     input.accept = "image/*";
     input.onchange = (e) => {
       const files = Array.from((e.target as HTMLInputElement).files || []);
-      // Handle file upload logic here
-      console.log("Files selected:", files);
+      handleImageUpload(files);
     };
     input.click();
   }, []);
+
+  const handleClose = () => {
+    setUploadedImage(null);
+  };
+
+  if (uploadedImage) {
+    return (
+      <div className="flex flex-col items-center w-[630px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden">
+        <div className="relative w-full">
+          <img 
+            src={uploadedImage} 
+            alt="Uploaded screenshot" 
+            className="w-full h-auto"
+          />
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-4 w-8 h-8 bg-black rounded-full flex items-center justify-center hover:bg-opacity-80 transition-colors"
+            aria-label="Close preview"
+          >
+            <X size={20} className="text-white" />
+          </button>
+        </div>
+        <SettingsPanel />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -76,4 +108,3 @@ export const UploadSection: React.FC = () => {
     </div>
   );
 };
-
