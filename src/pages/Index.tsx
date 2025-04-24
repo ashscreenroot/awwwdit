@@ -1,13 +1,21 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import React from "react";
+import { Header } from "@/components/layout/Header";
+import { BottomBar } from "@/components/layout/BottomBar";
+import { UploadSection } from "@/components/upload/UploadSection";
 
-const Index = () => {
+const Index: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      />
+      <main className="max-w-none flex flex-col items-center justify-center w-full h-screen relative bg-[#D72226] mx-auto max-md:max-w-[991px] max-sm:max-w-screen-sm">
+        <Header />
+        <UploadSection />
+        <BottomBar />
+      </main>
+    </>
   );
 };
 
