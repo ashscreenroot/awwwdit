@@ -54,14 +54,16 @@ export const UploadSection: React.FC = () => {
       </div>
       
       <div 
-        className="w-full"
+        className="w-full relative"
         onMouseEnter={() => setShowSettings(true)}
         onMouseLeave={() => setShowSettings(false)}
       >
-        <div className="relative">
-          <div
-            className={`absolute bottom-0 w-full transform transition-transform duration-300 ease-in-out ${
-              showSettings ? "translate-y-0" : "translate-y-full"
+        <div className="absolute bottom-0 w-full">
+          <div 
+            className={`transform transition-all duration-300 ease-in-out ${
+              showSettings 
+                ? "translate-y-0 opacity-100" 
+                : "translate-y-full opacity-0"
             }`}
           >
             <SettingsPanel />
