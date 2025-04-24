@@ -45,8 +45,8 @@ export const UploadSection: React.FC = () => {
 
   const handleAwwwditClick = () => {
     toast({
-      title: "Ashley's still building it",
-      description: "the current build is 42 mins! Phewww!",
+      title: "Ashley's still at it…",
+      description: "build time: 42 minutes and counting. Someone send snacks 🍖",
       duration: 5000,
     });
   };
