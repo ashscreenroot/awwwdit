@@ -1,11 +1,12 @@
-
 import React, { useCallback, useState } from "react";
 import { UploadIcon } from "./UploadIcon";
 import { SettingsPanel } from "./SettingsPanel";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 export const UploadSection: React.FC = () => {
+  const { toast } = useToast();
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
@@ -42,6 +43,14 @@ export const UploadSection: React.FC = () => {
     setUploadedImage(null);
   };
 
+  const handleAwwwditClick = () => {
+    toast({
+      title: "Ashley's still building it",
+      description: "the current build is 42 mins! Phewww!",
+      duration: 5000,
+    });
+  };
+
   if (uploadedImage) {
     return (
       <div className="flex flex-col items-center">
@@ -68,6 +77,7 @@ export const UploadSection: React.FC = () => {
         </div>
         <Button 
           className="mt-4 bg-[#0C0B0A] text-white font-medium px-[32px] py-[17px] rounded-[32px]"
+          onClick={handleAwwwditClick}
         >
           Awwwdit now
         </Button>
