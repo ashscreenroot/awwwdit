@@ -44,7 +44,7 @@ export const UploadSection: React.FC = () => {
   if (uploadedImage) {
     return (
       <div className="flex flex-col items-center w-[630px] h-[370px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden">
-        <div className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] bg-white p-4 rounded-[20px] rotate-[-3.3deg] shadow-2xl">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] bg-white p-4 rounded-[20px] rotate-[-3.3deg] shadow-2xl">
           <div className="aspect-[3/4] w-full overflow-hidden rounded-lg">
             <img 
               src={uploadedImage} 
