@@ -1,8 +1,10 @@
-
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { UploadIcon } from "./UploadIcon";
+import { SettingsPanel } from "./SettingsPanel";
 
 export const UploadSection: React.FC = () => {
+  const [showSettings, setShowSettings] = useState(false);
+
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     const files = Array.from(e.dataTransfer.files);
@@ -28,11 +30,11 @@ export const UploadSection: React.FC = () => {
 
   return (
     <div
-      className="flex flex-col items-center justify-center w-[630px] h-[347px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-md:h-auto max-sm:w-[90%] max-sm:h-auto"
+      className="flex flex-col items-center justify-center w-[630px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%]"
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
-      <div className="flex flex-col items-center gap-6 w-full px-4">
+      <div className="flex flex-col items-center gap-6 w-full px-4 py-[115px]">
         <button
           onClick={handleClick}
           className="flex justify-center items-center w-14 h-14 bg-[#0C0B0A] rounded-[50%] hover:bg-opacity-90 transition-colors"
@@ -49,8 +51,18 @@ export const UploadSection: React.FC = () => {
           </span>
         </div>
       </div>
-      <div className="w-10 h-1.5 absolute bg-black rounded-[20px] bottom-4 max-md:w-[30px] max-md:h-[5px] max-sm:w-5 max-sm:h-1" />
+      
+      <div 
+        className="w-full"
+        onMouseEnter={() => setShowSettings(true)}
+        onMouseLeave={() => setShowSettings(false)}
+      >
+        {showSettings ? (
+          <SettingsPanel />
+        ) : (
+          <div className="w-10 h-1.5 mx-auto mb-4 bg-black rounded-[20px] hover:bg-opacity-80 transition-colors cursor-pointer max-md:w-[30px] max-md:h-[5px] max-sm:w-5 max-sm:h-1" />
+        )}
+      </div>
     </div>
   );
 };
-
