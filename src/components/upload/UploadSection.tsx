@@ -1,4 +1,3 @@
-
 import React, { useCallback, useState } from "react";
 import { UploadIcon } from "./UploadIcon";
 import { SettingsPanel } from "./SettingsPanel";
@@ -43,9 +42,9 @@ export const UploadSection: React.FC = () => {
 
   if (uploadedImage) {
     return (
-      <div className="flex flex-col items-center w-[630px] relative max-md:w-4/5 max-sm:w-[90%]">
-        <div className="relative w-full bg-white p-4 rounded-[20px] rotate-[3.3deg] shadow-2xl">
-          <div className="relative w-full">
+      <div className="flex flex-col items-center w-[630px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden">
+        <div className="relative w-full px-4 py-4">
+          <div className="relative w-full bg-white p-4 rounded-[20px] rotate-[-3.3deg] shadow-2xl">
             <img 
               src={uploadedImage} 
               alt="Uploaded screenshot" 
@@ -60,26 +59,7 @@ export const UploadSection: React.FC = () => {
             </button>
           </div>
         </div>
-        <div 
-          className="relative w-full -mt-4"
-          onMouseEnter={() => setShowSettings(true)}
-          onMouseLeave={() => setShowSettings(false)}
-        >
-          <div 
-            className={`transform transition-all duration-300 ease-in-out ${
-              showSettings 
-                ? "translate-y-0 opacity-100" 
-                : "translate-y-full opacity-0"
-            }`}
-          >
-            <div className="w-10 h-1.5 mx-auto bg-black rounded-[20px] hover:bg-opacity-80 transition-all duration-300 cursor-pointer max-md:w-[30px] max-md:h-[5px] max-sm:w-5 max-sm:h-1 mb-2" />
-            <SettingsPanel />
-          </div>
-
-          {!showSettings && (
-            <div className="w-10 h-1.5 mx-auto bg-black rounded-[20px] hover:bg-opacity-80 transition-all duration-300 cursor-pointer max-md:w-[30px] max-md:h-[5px] max-sm:w-5 max-sm:h-1 mb-2" />
-          )}
-        </div>
+        <SettingsPanel />
       </div>
     );
   }
