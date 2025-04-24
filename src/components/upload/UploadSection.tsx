@@ -1,3 +1,4 @@
+
 import React, { useCallback, useState } from "react";
 import { UploadIcon } from "./UploadIcon";
 import { SettingsPanel } from "./SettingsPanel";
@@ -44,12 +45,14 @@ export const UploadSection: React.FC = () => {
     return (
       <div className="flex flex-col items-center w-[630px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden">
         <div className="relative w-full px-4 py-4">
-          <div className="relative w-full bg-white p-4 rounded-[20px] rotate-[-3.3deg] shadow-2xl">
-            <img 
-              src={uploadedImage} 
-              alt="Uploaded screenshot" 
-              className="w-full h-[400px] object-cover rounded-lg"
-            />
+          <div className="relative w-[280px] mx-auto bg-white p-4 rounded-[20px] rotate-[-3.3deg] shadow-2xl">
+            <div className="aspect-[3/4] w-full overflow-hidden rounded-lg">
+              <img 
+                src={uploadedImage} 
+                alt="Uploaded screenshot" 
+                className="w-full h-full object-cover"
+              />
+            </div>
             <button
               onClick={handleClose}
               className="absolute top-4 right-4 w-8 h-8 bg-black/90 rounded-full flex items-center justify-center hover:bg-black transition-colors"
