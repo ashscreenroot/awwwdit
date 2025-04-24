@@ -1,10 +1,9 @@
-
 import React from "react";
 import { ChevronUp, ChevronDown, Plus, Minus } from "lucide-react";
 
 export const SettingsPanel: React.FC = () => {
   return (
-    <div className="flex items-center justify-between w-full h-[60px] bg-black px-6 rounded-b-[20px]">
+    <div className="flex items-center justify-between w-full h-[60px] bg-black px-6 rounded-b-[20px] transform transition-all duration-300 ease-in-out">
       <div className="flex items-center gap-4">
         <span className="text-[#8B8B8B] text-sm">Number of Callouts</span>
         <div className="flex items-center gap-4">
