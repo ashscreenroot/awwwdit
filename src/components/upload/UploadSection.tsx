@@ -1,3 +1,4 @@
+
 import React, { useCallback, useState } from "react";
 import { UploadIcon } from "./UploadIcon";
 import { SettingsPanel } from "./SettingsPanel";
@@ -67,7 +68,7 @@ export const UploadSection: React.FC = () => {
           <SettingsPanel />
         </div>
         <div 
-          className="w-10 h-1.5 mx-auto mb-4 bg-black rounded-[20px] hover:bg-opacity-80 transition-all duration-300 cursor-pointer max-md:w-[30px] max-md:h-[5px] max-sm:w-5 max-sm:h-1"
+          className={`w-10 h-1.5 mx-auto ${showSettings ? 'mb-0' : 'mb-4'} bg-black rounded-[20px] hover:bg-opacity-80 transition-all duration-300 cursor-pointer max-md:w-[30px] max-md:h-[5px] max-sm:w-5 max-sm:h-1 relative z-10`}
         />
       </div>
     </div>
