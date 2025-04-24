@@ -19,13 +19,13 @@ const Preview: React.FC = () => {
     <>
       <link
         rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
       />
       <main className="max-w-none flex flex-col items-center justify-center w-full h-screen relative bg-[#D72226] mx-auto max-md:max-w-[991px] max-sm:max-w-screen-sm">
         <Header />
         <div className="flex flex-col items-center w-[630px] relative bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden">
-          <div className="relative w-full p-4">
-            <div className="relative w-full bg-white p-4 rounded-[20px] transform rotate-[3.3deg] shadow-xl">
+          <div className="relative w-full p-6">
+            <div className="relative w-full bg-white p-5 rounded-[20px] transform rotate-[3.3deg] shadow-2xl">
               <div className="relative w-full bg-[#F2FCE2] aspect-video rounded-lg overflow-hidden">
                 {imageUrl ? (
                   <img
@@ -41,10 +41,10 @@ const Preview: React.FC = () => {
               </div>
               <button
                 onClick={handleClose}
-                className="absolute top-6 right-6 w-8 h-8 bg-black/90 rounded-full flex items-center justify-center hover:bg-opacity-80 transition-colors"
+                className="absolute top-4 right-4 w-8 h-8 bg-transparent hover:opacity-80 transition-opacity"
                 aria-label="Close preview"
               >
-                <X size={20} className="text-white" />
+                <X size={24} className="text-black" />
               </button>
             </div>
           </div>
