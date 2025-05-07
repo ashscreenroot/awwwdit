@@ -99,3 +99,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #4A4A4A; /* Dark grey track */
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: white; /* White thumb */
+  border-radius: 10px;
+  border: 2px solid #4A4A4A; /* Dark grey border around thumb, matching track */
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: white #4A4A4A; /* thumb track for Firefox */
+}
