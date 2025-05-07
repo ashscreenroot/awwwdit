@@ -1,14 +1,30 @@
 import React from "react";
 import { Plus, Minus, ChevronDown } from "lucide-react";
 
+interface GeminiAuditIssue {
+  id: number;
+  title: string;
+  description: string;
+}
+
+export interface GeminiAuditResponse {
+  title: string;
+  subtitle: string; // The service already formats this with the count
+  issues: GeminiAuditIssue[];
+}
+
 interface SettingsPanelProps {
   showAuditSummary: boolean;
   callouts: number;
   onIncrementCallouts: () => void;
   onDecrementCallouts: () => void;
+  isLoading?: boolean; // Make optional if not always passed or default internally
+  apiResponse?: GeminiAuditResponse | { error: string } | null; // To handle success, error, or no data
 }
 
-const auditData = {
+// Keep mock data for when API response isn't shown or as fallback if needed,
+// though the main display will prioritize apiResponse.
+const mockAuditData = {
   title: "Audit summary",
   subtitle: (count: number) => `Here are ${count} issues observed in the calendar screenshot:`,
   issues: [
@@ -65,14 +81,56 @@ const auditData = {
   ],
 };
 
+
 export const SettingsPanel: React.FC<SettingsPanelProps> = ({ 
   showAuditSummary, 
   callouts, 
   onIncrementCallouts, 
-  onDecrementCallouts 
+  onDecrementCallouts,
+  isLoading,
+  apiResponse
 }) => {
 
-  const totalSelectedIssues = auditData.issues.slice(0, callouts);
+  // Determine max callouts based on mock data if API hasn't specified or loaded yet
+  // This might need adjustment if API can return variable number of issues regardless of initial 'callouts' param
+  const maxCallouts = mockAuditData.issues.length; 
+
+  const renderAuditContent = () => {
+    if (isLoading) {
+      return <p className="text-center text-gray-300">Awwwditing your image...</p>;
+    }
+
+    // Explicitly check for the error structure first
+    if (apiResponse && typeof apiResponse === 'object' && 'error' in apiResponse && apiResponse.error) {
+      return <p className="text-center text-red-400">Error: {apiResponse.error}</p>;
+    }
+
+    // Then check for the success structure (GeminiAuditResponse)
+    // We can safely cast here or ensure the structure matches GeminiAuditResponse
+    const successfulResponse = apiResponse as GeminiAuditResponse;
+    if (successfulResponse && successfulResponse.issues) {
+      return (
+        <>
+          <h2 className="text-2xl font-semibold mb-2">{successfulResponse.title}</h2>
+          <p className="text-sm text-gray-300 mb-6">{successfulResponse.subtitle}</p>
+          <div className="h-40 overflow-y-scroll space-y-5 pr-2 custom-scrollbar">
+            {successfulResponse.issues.map(issue => (
+              <div key={issue.id} className="min-h-[5rem]">
+                <h3 className="font-semibold text-base mb-1">
+                  {issue.id}. {issue.title} 
+                </h3>
+                <p className="text-sm text-gray-400 ml-4">
+                  {issue.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </>
+      );
+    }
+    // Fallback or initial state content if needed, though typically hidden when showAuditSummary is false
+    return <p className="text-center text-gray-500">No audit summary available.</p>;
+  };
 
   return (
     <div className={`w-full transform transition-all duration-500 ease-in-out overflow-hidden ${showAuditSummary ? '' : 'h-[60px] bg-black rounded-b-[20px]'}`}>
@@ -93,10 +151,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
               <span className="text-white text-lg font-medium">{callouts.toString().padStart(2, '0')}</span>
               <button 
                 className={`text-[#8B8B8B] hover:text-white transition-colors ${
-                  callouts >= auditData.issues.length ? 'opacity-50 cursor-not-allowed' : '' 
+                  // Use maxCallouts which can be updated if API provides a different limit
+                  callouts >= maxCallouts ? 'opacity-50 cursor-not-allowed' : '' 
                 }`}
                 onClick={onIncrementCallouts}
-                disabled={callouts >= auditData.issues.length} 
+                disabled={callouts >= maxCallouts} 
               >
                 <Plus size={20} />
               </button>
@@ -118,20 +177,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
       {showAuditSummary && (
         <div className="bg-black rounded-b-[20px] pt-6 pb-6 px-6 text-white">
-          <h2 className="text-2xl font-semibold mb-2">{auditData.title}</h2>
-          <p className="text-sm text-gray-300 mb-6">{auditData.subtitle(totalSelectedIssues.length)}</p>
-          <div className="h-40 overflow-y-scroll space-y-5 pr-2 custom-scrollbar">
-            {totalSelectedIssues.map(issue => (
-              <div key={issue.id} className="min-h-[5rem]">
-                <h3 className="font-semibold text-base mb-1">
-                  {issue.id}. {issue.title} 
-                </h3>
-                <p className="text-sm text-gray-400 ml-4">
-                  {issue.description}
-                </p>
-              </div>
-            ))}
-          </div>
+          {renderAuditContent()}
         </div>
       )}
     </div>

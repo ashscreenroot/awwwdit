@@ -4,12 +4,16 @@ import { SettingsPanel } from "./SettingsPanel";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { analyzeImage } from "../../services/geminiService";
+import type { GeminiAuditResponse } from "./SettingsPanel";
 
 export const UploadSection: React.FC = () => {
   const { toast } = useToast();
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [showAuditSummary, setShowAuditSummary] = useState<boolean>(false);
   const [callouts, setCallouts] = useState(3);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [apiResponse, setApiResponse] = useState<GeminiAuditResponse | { error: string } | null>(null);
 
   const handleImageUpload = (files: File[]) => {
     if (files.length > 0) {
@@ -18,6 +22,7 @@ export const UploadSection: React.FC = () => {
       setUploadedImage(imageUrl);
       setShowAuditSummary(false);
       setCallouts(3);
+      setApiResponse(null);
     }
   };
 
@@ -46,14 +51,40 @@ export const UploadSection: React.FC = () => {
     setUploadedImage(null);
     setShowAuditSummary(false);
     setCallouts(3);
+    setApiResponse(null);
   };
 
-  const handleAwwwditClick = () => {
+  const handleAwwwditClick = async () => {
+    if (!uploadedImage) return;
+
+    setIsLoading(true);
     setShowAuditSummary(true);
-    toast({
-      title: "Congrats you've replaced an UX Audit Job Post",
-      duration: 5000,
-    });
+    setApiResponse(null);
+
+    try {
+      const data = await analyzeImage(uploadedImage, callouts);
+      setApiResponse(data);
+
+      toast({
+        title: "Audit Complete!",
+        description: "The AI has analyzed your image.",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error("Error calling analyzeImage service:", error);
+      let errorMessage = "Failed to get audit summary.";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+      setApiResponse({ error: errorMessage });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleIncrementCallouts = () => {
@@ -68,10 +99,9 @@ export const UploadSection: React.FC = () => {
     }
   };
 
-  // Conditional classes for the outermost wrapper
   const wrapperClasses = showAuditSummary 
-    ? "w-full flex flex-col items-center" // No explicit padding/margin when summary is shown, relies on parent for centering
-    : "pt-[100px] pb-[100px] mb-[100px] w-full flex flex-col items-center"; // Original padding/margin otherwise
+    ? "w-full flex flex-col items-center"
+    : "pt-[100px] pb-[100px] mb-[100px] w-full flex flex-col items-center";
 
   return (
     <div className={wrapperClasses}>
@@ -102,14 +132,17 @@ export const UploadSection: React.FC = () => {
                 callouts={callouts} 
                 onIncrementCallouts={handleIncrementCallouts}
                 onDecrementCallouts={handleDecrementCallouts}
+                isLoading={isLoading} 
+                apiResponse={apiResponse}
               />
             </div>
           </div>
           <Button 
             className="mt-4 bg-[#0C0B0A] text-white font-medium px-[32px] py-[17px] rounded-[32px]"
             onClick={handleAwwwditClick}
+            disabled={isLoading}
           >
-            Awwwdit now
+            {isLoading ? "Awwwditing..." : "Awwwdit now"}
           </Button>
         </div>
       ) : (
