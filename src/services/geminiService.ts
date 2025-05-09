@@ -14,8 +14,8 @@ Focus on:
 
 For each issue found:
 1. Provide a clear, concise title
-2. Give a detailed description of the problem
-3. Explain its impact on user experience
+2. Give a detailed description of the problem which is a single sentence of 30 words
+3. Do not mention any strengths or what is working well
 
 Return exactly {calloutCount} issues in the following JSON format:
 {

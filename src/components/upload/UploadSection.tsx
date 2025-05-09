@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { UploadIcon } from "./UploadIcon";
 import { SettingsPanel } from "./SettingsPanel";
 import { X } from "lucide-react";
@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { analyzeImage } from "../../services/geminiService";
 import type { GeminiAuditResponse } from "./SettingsPanel";
+import Confetti from 'react-confetti';
 
 export const UploadSection: React.FC = () => {
   const { toast } = useToast();
@@ -14,6 +15,17 @@ export const UploadSection: React.FC = () => {
   const [callouts, setCallouts] = useState(3);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [apiResponse, setApiResponse] = useState<GeminiAuditResponse | { error: string } | null>(null);
+  const [showConfetti, setShowConfetti] = useState<boolean>(false);
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleImageUpload = (files: File[]) => {
     if (files.length > 0) {
@@ -23,6 +35,7 @@ export const UploadSection: React.FC = () => {
       setShowAuditSummary(false);
       setCallouts(3);
       setApiResponse(null);
+      setShowConfetti(false);
     }
   };
 
@@ -52,6 +65,7 @@ export const UploadSection: React.FC = () => {
     setShowAuditSummary(false);
     setCallouts(3);
     setApiResponse(null);
+    setShowConfetti(false);
   };
 
   const handleAwwwditClick = async () => {
@@ -60,16 +74,21 @@ export const UploadSection: React.FC = () => {
     setIsLoading(true);
     setShowAuditSummary(true);
     setApiResponse(null);
+    setShowConfetti(false);
 
     try {
       const data = await analyzeImage(uploadedImage, callouts);
       setApiResponse(data);
+      setShowConfetti(true);
 
       toast({
         title: "Audit Complete!",
         description: "The AI has analyzed your image.",
         duration: 3000,
       });
+
+      setTimeout(() => setShowConfetti(false), 7000);
+
     } catch (error) {
       console.error("Error calling analyzeImage service:", error);
       let errorMessage = "Failed to get audit summary.";
@@ -105,6 +124,7 @@ export const UploadSection: React.FC = () => {
 
   return (
     <div className={wrapperClasses}>
+      {showConfetti && <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces={300} />}
       {uploadedImage ? (
         <div className="flex flex-col items-center">
           <div className={`flex flex-col w-[630px] ${showAuditSummary ? 'h-auto max-h-[2000px]' : 'h-[370px] max-h-[370px]'} bg-[#6D0E10] rounded-[20px] max-md:w-4/5 max-sm:w-[90%] overflow-hidden transition-all duration-500 ease-in-out`}>

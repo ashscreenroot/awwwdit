@@ -1,5 +1,6 @@
 import React from "react";
 import { Plus, Minus, ChevronDown } from "lucide-react";
+import { Loader } from "../ui/Loader";
 
 interface GeminiAuditIssue {
   id: number;
@@ -90,6 +91,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
   isLoading,
   apiResponse
 }) => {
+  // const [loadingPercentage, setLoadingPercentage] = useState(0); // Remove state
 
   // Determine max callouts based on mock data if API hasn't specified or loaded yet
   // This might need adjustment if API can return variable number of issues regardless of initial 'callouts' param
@@ -97,7 +99,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
   const renderAuditContent = () => {
     if (isLoading) {
-      return <p className="text-center text-gray-300">Awwwditing your image...</p>;
+      return (
+        <div className="flex justify-center items-center h-full py-4">
+          <Loader size={32} color="#9CA3AF" />
+        </div>
+      );
     }
 
     // Explicitly check for the error structure first
